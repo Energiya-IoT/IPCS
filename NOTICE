@@ -1,0 +1,17 @@
+International Postcode System (IPCS)
+Copyright 2026 Bartosz Cieślicki
+
+Concept, algorithm design, and original implementation created by
+Bartosz Cieślicki (Rochdale, 2018).
+
+This product includes software developed as part of the International
+Postcode System (IPCS) project, an open, free-to-use global address-coding
+system created to make it possible to encode geographic coordinates
+directly within a short, human-readable postal code.
+
+Any derivative works, forks, or applications built upon this project must
+retain this NOTICE file and the accompanying LICENSE, and must credit
+Bartosz Cieślicki as the original author of the IPCS concept and algorithm,
+in accordance with Section 4(d) of the Apache License, Version 2.0.
+
+Project repository: https://github.com/Energiya-IoT/IPCS
