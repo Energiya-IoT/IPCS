@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>IPCS</title>
+</head>
+
+<!--
+ *  Created on: May 2, 2018
+ *	   Project: IPCS
+ *      Author: Bartosz Cieslicki
+ *      E-Mail: bartc78@gmail.com
+-->
+
+<script src="ipcs.js"></script>
+<script>
+			function Prevent(e)
+			{
+				var k = e.keyCode || e.which;
+				var ok = k >= 65 && k <= 90 && k!=79 && k!=73 || k >= 96 && k <= 105 || k >= 35 && k <= 40 || k == 9 || k == 46 || k == 8 || (!e.shiftKey && k >= 48 && k <= 57); 			
+				if(!ok || (e.ctrlKey && e.altKey) )
+				{
+					e.preventDefault();
+				}
+			}
+			
+			function PreventDig(e)
+			{
+				var k = e.keyCode || e.which;
+				var ok = (k >= 96 && k <= 105) || k == 109 || k == 190 || k == 8 || k == 39 || k == 37 || (!e.shiftKey && k >= 48 && k <= 57);				
+				if(!ok || (e.ctrlKey && e.altKey) )
+				{
+					e.preventDefault();
+				}
+			}
+			
+			function Reverse()
+			{
+				var Edt = document.getElementById("PostcodeEdit");
+				var X = document.getElementById("X");
+				var Y = document.getElementById("Y");
+				if(Edt.value.length == 8)
+				{
+					try
+					{
+						var Coor = ReversePostcode(Edt.value);
+						if(Coor.length == 2)
+						{
+							X.value=Coor[0];
+							Y.value=Coor[1];
+						}						
+						else
+						{
+							X.value="----";
+							Y.value="----";
+						}
+					}
+					catch (Err) 
+					{
+						X.value="";
+						Y.value="";
+					}
+				}
+				else
+				{
+					X.value="";
+					Y.value="";
+				}
+			}
+			 function Geocode()
+			 {
+			 	var Edt = document.getElementById("PostcodeEdit");
+				var X = document.getElementById("X");
+				var Y = document.getElementById("Y");
+				
+				try
+				{
+					var IPCS = GeneratePostcode(parseFloat(X.value), parseFloat(Y.value));
+					Edt.value = IPCS;
+				}
+				catch(Err)
+				{
+					Edt.value = "----";
+				}
+			 }
+</script>
+<body>
+<input type="text" id="PostcodeEdit" style="position:absolute;left:103px;top:105px;width:199px;height:22px;z-index:0;text-transform:uppercase;" name="PostcodeEdit" value="" spellcheck="false" oninput="Reverse();return false;" maxlength="8" autocomplete="off" onkeydown="Prevent(event);">
+<input type="text" id="X" style="position:absolute;left:216px;top:182px;width:86px;height:16px;z-index:1;" value="" spellcheck="false" oninput="Geocode();return false;" maxlength="11" autocomplete="off" onkeydown="PreventDig(event);">
+<input type="text" id="Y" style="position:absolute;left:103px;top:182px;width:86px;height:16px;z-index:2;" value="" spellcheck="false" oninput="Geocode();return false;" maxlength="11" autocomplete="off" onkeydown="PreventDig(event);">
+<label for="" id="Label1" style="position:absolute;left:103px;top:81px;width:99px;height:16px;line-height:16px;z-index:3;">IPCS:</label>
+<label for="" id="Label2" style="position:absolute;left:103px;top:158px;width:39px;height:16px;line-height:16px;z-index:4;">Lat:</label>
+<label for="" id="Label3" style="position:absolute;left:216px;top:158px;width:86px;height:16px;line-height:16px;z-index:5;">Long:</label>
+</body>
+</html>
