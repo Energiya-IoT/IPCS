@@ -4,6 +4,12 @@
 
 Licencja: [Apache License 2.0](./LICENSE) — patrz też [NOTICE](./NOTICE).
 
+## API
+
+Publiczny endpoint do generowania i dekodowania kodów IPCS (geocode /
+reverse geocode / dystans między kodami) jest udokumentowany w
+[**API.md**](./API.md).
+
 ---
 
 ## 🇬🇧 Description (English)
@@ -38,8 +44,12 @@ coordinates directly within the code itself**.
 1. Geographic coordinates (latitude and longitude) are rounded to a
    quarter of a thousandth of a degree (a grid of roughly 1000 m² at the
    equator).
-2. The rounded values are converted to binary and combined into a single
-   41-bit number.
+2. The rounded coordinate is split into three parts: the integer degree
+   part (e.g. `XXX` for longitude, 9 bits), the thousandths part (`xxx`,
+   10 bits), and the rounding-quarter index (`qq`, values 00/25/50/75
+   stored in 2 bits). The same applies to latitude (`YYY` — 8 bits,
+   `yyy` — 10 bits, `gg` — 2 bits). These six binary numbers are then
+   concatenated in a fixed order into a single 41-bit number.
 3. That binary number is converted into base-34 (digits 0–9 and letters
    A–Z, excluding O and I), producing an 8-character IPCS code.
 4. The reverse operation lets you reconstruct the exact center coordinates
@@ -64,7 +74,6 @@ license, provided that authorship is credited (see [NOTICE](./NOTICE)).
 
 **Bartosz Cieślicki** — pomysłodawca i autor algorytmu IPCS (Rochdale,
 2018) / creator of the IPCS concept and algorithm (Rochdale, 2018).
-
 ---
 
 ## 🇵🇱 Opis (Polski)
@@ -95,8 +104,12 @@ bezpośrednio w samym kodzie**.
 
 1. Współrzędne geograficzne (szerokość i długość) są zaokrąglane do
    ćwiartki tysięcznej stopnia (siatka ok. 1000 m² na równiku).
-2. Zaokrąglone wartości konwertowane są do postaci binarnej i łączone w
-   jedną liczbę 41-bitową.
+2. Zaokrąglona współrzędna jest rozbijana na trzy części: część całkowitą
+   stopni (np. `XXX` dla długości, 9 bitów), część tysięczną (`xxx`,
+   10 bitów) oraz indeks ćwiartki zaokrąglenia (`qq`, wartości 00/25/50/75
+   zapisane na 2 bitach). To samo dzieje się dla szerokości (`YYY` —
+   8 bitów, `yyy` — 10 bitów, `gg` — 2 bity). Sześć tak powstałych liczb
+   binarnych łączy się w ustalonej kolejności w jedną 41-bitową liczbę.
 3. Liczba binarna jest konwertowana do systemu trzydziestoczwórkowego
    (0–9 i litery A–Z bez O i I) — powstaje 8-znakowy kod IPCS.
 4. Operacja odwrotna pozwala z każdego kodu IPCS odtworzyć dokładne
@@ -115,4 +128,3 @@ Projekt jest darmowy i otwarty dla wszystkich — to mój wkład dla
 społeczności. Każdy może go używać, wdrażać i rozwijać na zasadach
 licencji Apache 2.0, z zachowaniem informacji o autorstwie (patrz
 [NOTICE](./NOTICE)).
-
